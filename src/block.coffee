@@ -4,7 +4,7 @@ class Block
     @status = "normal"
     @val = val
   break:()->
-    return true if @status == "checked"
+    return true if @status == "checked" || @status == "breaked"
     @status = "breaked"
     if @val == "x"
       return false

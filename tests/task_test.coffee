@@ -54,18 +54,10 @@ describe 'MineSweeper',->
     ms.start()
     ms.action(0,0,"break")
     expect(ms.status).be.equal(false)
-  ###
-  it "expects true is true like Jasmine", ->
-    expect(true).be.true
-  it "should be true like RSpec", ->
-    true.should.be.true
+  it "view test", ->
+    ms.set(5,5,1)
+    ms.start()
+    ms.action(0,0,"break")
+    view = ms.show()
+    expect(view.length).be.above(1)
 
-  it "should rutern item string with toString",->
-    t.toString().should.equal("foo bar")
-
-
-  it "should return true with #did after done", ->
-    t.did.should.not.be.true
-    t.done()
-    t.did.should.be.true
-  ###

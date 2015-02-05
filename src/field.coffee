@@ -8,6 +8,7 @@ class Field
   create:()->
     field_num = @size[0]*@size[1]
     mine_pos = rand_mine.call @,@mine,field_num
+    @status = []
     for i in [0..@size[0]-1]
       for j in [0..@size[1]-1]
         @status[i] = [] if @status[i] == undefined
@@ -20,13 +21,17 @@ class Field
   #マスを壊す
   break:(x,y)->
     break_flag = @status[x][y].break()
-    chain_break.call @,x,y if break_flag == "chain"
+    @chain_break(x,y) if break_flag == "chain"
     return break_flag
-  chain_break = (x,y)->
+  chain_break:(x,y)->
+    x = parseInt(x)
+    y = parseInt(y)
     for ti in [-1..1]
       continue if @status[x+ti] == undefined
       for tj in [-1..1]
-        @status[ti][tj].break() if @status[ti][tj] != undefined
+        @break(ti+x,tj+y) if @status[ti+x][tj+y] != undefined
+        #break.call @,ti,tj if @status[ti][tj] != undefined
+        #@status[ti][tj].break() if @status[ti][tj] != undefined
 
   #マスに旗を立てる
   check:(x,y)->
@@ -68,7 +73,6 @@ class Field
       for tj in [-1..1]
         sum_result += 1 if mine_pos[i+ti][j+tj] == "x"
     return sum_result
-
 
 if module?.exports
   module.exports.Field = Field
