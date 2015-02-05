@@ -19,7 +19,15 @@ class Field
           @status[i][j] = new Block(around_mine)
   #マスを壊す
   break:(x,y)->
-    return @status[x][y].break()
+    break_flag = @status[x][y].break()
+    chain_break.call @,x,y if break_flag == "chain"
+    return break_flag
+  chain_break = (x,y)->
+    for ti in [-1..1]
+      continue if @status[x+ti] == undefined
+      for tj in [-1..1]
+        @status[ti][tj].break() if @status[ti][tj] != undefined
+
   #マスに旗を立てる
   check:(x,y)->
     return @status[x][y].check()

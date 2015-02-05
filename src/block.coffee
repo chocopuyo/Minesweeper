@@ -8,6 +8,8 @@ class Block
     @status = "breaked"
     if @val == "x"
       return false
+    else if @val == 0
+      return "chain"
     else
       return true
   check:()->

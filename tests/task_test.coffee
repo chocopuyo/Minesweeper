@@ -49,16 +49,11 @@ describe 'MineSweeper',->
     expect(block.status).be.equal("checked")
     ms.action(0,0,"check")
     expect(block.status).be.equal("normal")
-  it "clear",->
+  it "break chain & clear",->
     ms.set(2,2,0)
     ms.start()
     ms.action(0,0,"break")
-    ms.action(0,1,"break")
-    ms.action(1,0,"break")
-    expect(ms.status).be.equal(true)
-    ms.action(1,1,"break")
     expect(ms.status).be.equal(false)
-  it "break chain"
   ###
   it "expects true is true like Jasmine", ->
     expect(true).be.true
