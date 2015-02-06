@@ -1,7 +1,8 @@
-Field = require("../src/field").Field
+Field = require("../src/field").Field if module?.exports
 class MineSweeper
   constructor: () ->
-    @field = new Field()
+    Field = Field ? window.Field
+    @field = new Field() ? new window.Field()
     #ゲームが始まっているかどうか
     @status = false
     @message = ""
@@ -47,10 +48,30 @@ class MineSweeper
         else
           view += " "+block.val
     return view+"\n"+@message
+  field_status:->
+    return @field.status
   convert:(str)->
+    #予め文字コードを取得しておく
+    a_num = "a".charCodeAt(0)
+    zero_num = "0".charCodeAt(0)
+    result = ""
     #aは0に，0はaに変換する
     if parseInt(str) || str == 0
-      a_num = "a".charCodeAt(0)
+      #まずは26進数に変換
+      num26 =  str.toString(26)
+      #ひとけたずつ変換0->a,1->b...a->k...
+      for num,index in num26
+        digit = num26.length-index
+        if num == "0" or parseInt num
+          str_code = String(num).charCodeAt(0) - zero_num + a_num
+        else
+          str_code = num.charCodeAt(0) + 10
+        str_code = str_code - 1 if digit != 1
+        result += String.fromCharCode(str_code)
+      return result
+      #console.log str.toString(26)
+      #console.log String(9).charCodeAt(0)
+      #console.log "A".charCodeAt(0)
       num =  parseInt(str)
       result = String.fromCharCode(a_num + num )
       return result

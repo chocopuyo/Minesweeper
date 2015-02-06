@@ -9,13 +9,21 @@ it is good app.
 
 ## Requirement
 
-####test environment
 * node
-* mocha
-* chai
+* mocha(test)
+* chai(test)
 
 ## usage
+#### console app
+coffee app.coffee
+>> help
+
+#### browser app
+access index.html
+
+#### test
 cake test
+
 
 ## Author
 

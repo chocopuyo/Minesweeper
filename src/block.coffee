@@ -13,6 +13,7 @@ class Block
     else
       return true
   check:()->
+    return true if @status == "breaked"
     if @status == "normal"
       @status = "checked"
     else

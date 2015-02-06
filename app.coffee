@@ -1,6 +1,7 @@
 shell = require('shell')
 app = new shell( { chdir: __dirname } )
 MineSweeper = require("./src/minesweeper").MineSweeper
+
 #データ保存用変数
 ms = new MineSweeper()
 #シェルの環境設定

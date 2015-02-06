@@ -4,6 +4,8 @@ chai.should()
 # add should method to Object.prototype
 
 MineSweeper = require("../src/minesweeper").MineSweeper
+Field = require("../src/field").Field
+Block = require("../src/block").Block
 
 describe 'MineSweeper',->
   ms = null

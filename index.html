@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MineSweeper</title>
+  <style>
+    td.block {
+      cursor: pointer;
+      width:20px;
+      height:20px;
+      text-align: center;
+      background-color: #eee;
+    }
+    td.breaked {background-color: #ccc}
+    body{
+      text-align: center;
+    }
+    table{
+      margin: auto;
+    }
+    form{
+      margin:20px;
+      visibility:hidden;
+    }
+  </style>
+</head>
+<body>
+<div id="contents">
+  <h1>MineSweeper</h1>
+  <table id="minesweeper"><td>now loading...</td></table>
+  <span id="message"></span>
+  <form>
+    width:<input name="width" type="text" size="2" value=5 >
+    height:<input name="height" type="text" size="2" value=5 >
+    mines:<input name="mines" type="text" size="2" value=5 >
+    <input type="submit" value="restart">
+  </form>
+</div>
+<script type="text/javascript" src="./ext/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="./ext/coffee-script.js"></script>
+<script type="text/coffeescript" src="./src/minesweeper.coffee"></script>
+<script type="text/coffeescript" src="./src/field.coffee"></script>
+<script type="text/coffeescript" src="./src/block.coffee"></script>
+<script type="text/coffeescript">
+#get parames
+url = location.href
+obj = {
+  "width":5,
+  "height":5,
+  "mines":5
+}
+if url.split("?")[1]
+  params = url.split("?")[1].split("&")
+  for param in params
+    sparam = param.split("=")
+    obj[sparam[0]] = sparam[1]
+$("input[name='width']").val(obj["width"])
+$("input[name='height']").val(obj["height"])
+$("input[name='mines']").val(obj["mines"])
+$("form").css("visibility","visible")
+ms = new MineSweeper()
+ms.set(obj["height"],obj["width"],obj["mines"])
+ms.start()
+view = ()->
+  elem = ""
+  field = ms.field_status()
+  for line,x in field
+    elem += "<tr>"
+    for block,y in line
+      if block.status == "breaked"
+        elem += "<td class='"+block.status+" block' id='"+x+"-"+y+"''>"+block.val+"</td>"
+      else if block.status == "checked"
+        elem += "<td class='"+block.status+" block' id='"+x+"-"+y+"''>🏁</td>"
+      else
+        elem += "<td class='"+block.status+" block' id='"+x+"-"+y+"''>?</td>"
+  elem += "</tr>"
+  $("#minesweeper").html(elem)
+  $('td').unbind("click")
+  $('td').click(->
+    xy = $(this).attr("id").split("-")
+    ms.action(xy[0],xy[1],"break")
+    $("#message").text(ms.message)
+    view()
+    )
+  $("td").bind('contextmenu',->
+    xy = $(this).attr("id").split("-")
+    ms.action(xy[0],xy[1],"check")
+    view()
+    return false
+    )
+view()
+
+</script>
+</body>
+</html>

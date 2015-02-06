@@ -1,4 +1,4 @@
-Block = require("../src/block").Block
+Block = require("../src/block").Block if module?.exports
 class Field
   constructor: () ->
     @size = [5,5]
@@ -13,6 +13,7 @@ class Field
       for j in [0..@size[1]-1]
         @status[i] = [] if @status[i] == undefined
         #マスにブロックを設置する
+        Block = Block ? window.Block
         if mine_pos[i][j] == "x"
           @status[i][j] = new Block("x")
         else
