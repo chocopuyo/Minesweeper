@@ -16,7 +16,6 @@ it is good app.
 ## usage
 #### console app
 coffee app.coffee
->> help
 
 #### browser app
 access index.html
